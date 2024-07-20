@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arahma</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .love {
+            position: absolute;
+            font-size: 30px;
+            font-weight: bold;
+            color: #ff69b4;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .firefly {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #adff2f;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 8px #adff2f;
+        }
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background-color: #00f;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            animation: sway 5s ease-in-out infinite;
+        }
+        .cloud::before, .cloud::after {
+            content: "";
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .cloud::before {
+            width: 80px;
+            height: 80px;
+            top: -20px;
+            left: 20px;
+        }
+        .cloud::after {
+            width: 100px;
+            height: 100px;
+            top: -40px;
+            left: 70px;
+        }
+        @keyframes sway {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+            100% { transform: translateY(0); }
+        }
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4500;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .trail {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #ff4500;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        #lyrics {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #ff69b4;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Elemen untuk lirik lagu -->
+    <div id="lyrics">
+        <p id="line1" style="display: none;">Hujan samarkan deras nya</p>
+        <p id="line2" style="display: none;">Tutup air mata</p>
+        <p id="line3" style="display: none;">Temani kecewaku yang telah lama</p>
+        <p id="line4" style="display: none;">Berdosa kah ku berdoa</p>
+        <p id="line5" style="display: none;">Minta kau terluka</p>
+        <p id="line6" style="display: none;">Dan tinggalkan dirinya</p>
+    </div>
+
+    <!-- Elemen audio untuk musik -->
+    <audio id="backgroundMusic" src="musik.mp3" autoplay loop></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioElement = document.getElementById('backgroundMusic');
+            
+            // Pastikan audio diputar setelah interaksi pengguna
+            document.addEventListener('click', () => {
+                audioElement.play();
+            });
+
+            audioElement.addEventListener('timeupdate', () => {
+                const currentTime = audioElement.currentTime;
+
+                // Contoh timing lirik
+                if (currentTime >= 1 && currentTime < 5) {
+                    document.getElementById('line1').style.display = 'block';
+                } else {
+                    document.getElementById('line1').style.display = 'none';
+                }
+
+                if (currentTime >= 5 && currentTime < 8) {
+                    document.getElementById('line2').style.display = 'block';
+                } else {
+                    document.getElementById('line2').style.display = 'none';
+                }
+
+                if (currentTime >= 8 && currentTime < 13) {
+                    document.getElementById('line3').style.display = 'block';
+                } else {
+                    document.getElementById('line3').style.display = 'none';
+                }
+                if (currentTime >= 13 && currentTime < 16) {
+                    document.getElementById('line4').style.display = 'block';
+                } else {
+                    document.getElementById('line4').style.display = 'none';
+                }
+                if (currentTime >= 16 && currentTime < 19) {
+                    document.getElementById('line5').style.display = 'block';
+                } else {
+                    document.getElementById('line5').style.display = 'none';
+                }
+                if (currentTime >= 19 && currentTime < 23) {
+                    document.getElementById('line6').style.display = 'block';
+                } else {
+                    document.getElementById('line6').style.display = 'none';
+                }
+            });
+        });
+
+        function createLove() {
+            const love = document.createElement('div');
+            love.className = 'love';
+            love.innerText = '❤️'; // Ganti dengan simbol hati
+            love.style.left = `${Math.random() * window.innerWidth}px`;
+            love.style.top = `${Math.random() * window.innerHeight}px`;
+            love.style.opacity = '0';
+            document.body.appendChild(love);
+
+            const duration = Math.random() * 5 + 5;
+            love.animate([
+                { transform: `translate(0, 0)`, opacity: '1' },
+                { transform: `translate(${Math.random() * 800 - 400}px, ${Math.random() * 800 - 400}px)`, opacity: '0' }
+            ], {
+                duration: duration * 1000,
+                easing: 'ease-in-out',
+                fill: 'forwards'
+            }).onfinish = () => love.remove();
+        }
+
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = `${Math.random() * window.innerWidth}px`;
+            star.style.top = `${Math.random() * window.innerHeight}px`;
+            document.body.appendChild(star);
+
+            const duration = Math.random() * 1 + 0.5;
+            star.animate([
+                { opacity: '1' },
+                { opacity: '0.2' }
+            ], {
+                duration: duration * 1000,
+                easing: 'ease-in-out',
+                iterations: Infinity,
+                direction: 'alternate'
+            });
+        }
+
+        function createFirefly() {
+            const firefly = document.createElement('div');
+            firefly.className = 'firefly';
+            firefly.style.left = `${Math.random() * window.innerWidth}px`;
+            firefly.style.top = `${Math.random() * window.innerHeight}px`;
+            document.body.appendChild(firefly);
+
+            const blinkDuration = Math.random() * 1 + 0.5;
+            firefly.animate([
+                { opacity: '1' },
+                { opacity: '0.4' }
+            ], {
+                duration: blinkDuration * 1000,
+                easing: 'ease-in-out',
+                iterations: Infinity,
+                direction: 'alternate'
+            });
+
+            const moveDuration = Math.random() * 10 + 5;
+            firefly.animate([
+                { transform: 'translate(0, 0)' },
+                { transform: `translate(${Math.random() * window.innerWidth}px, ${Math.random() * window.innerHeight}px)` }
+            ], {
+                duration: moveDuration * 1000,
+                easing: 'linear',
+                iterations: Infinity,
+                direction: 'alternate'
+            });
+        }
+
+        function createRain() {
+            const rain = document.createElement('div');
+            rain.className = 'rain';
+            rain.style.left = `${Math.random() * window.innerWidth}px`;
+            rain.style.top = `${Math.random() * window.innerHeight}px`;
+            document.body.appendChild(rain);
+
+            const rainDuration = Math.random() * 2 + 1;
+            rain.animate([
+                { transform: `translateY(0)` },
+                { transform: `translateY(${window.innerHeight}px)` }
+            ], {
+                duration: rainDuration * 1000,
+                easing: 'linear',
+                iterations: Infinity,
+                direction: 'normal'
+            });
+        }
+
+        function createCloud(x, y) {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            cloud.style.width = '120px';
+            cloud.style.height = '60px';
+            cloud.style.left = `${x}px`;
+            cloud.style.top = `${y}px`;
+            document.body.appendChild(cloud);
+        }
+
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = `${Math.random() * window.innerWidth}px`;
+            firework.style.top = `${window.innerHeight}px`;
+            document.body.appendChild(firework);
+
+            const duration = Math.random() * 1 + 0.5;
+            const maxHeight = Math.random() * window.innerHeight / 2;
+
+            firework.animate([
+                { transform: 'translateY(0)' },
+                { transform: `translateY(-${maxHeight}px)` }
+            ], {
+                duration: duration * 1000,
+                easing: 'ease-out',
+                fill: 'forwards'
+            }).onfinish = () => {
+                createExplosion(firework.offsetLeft, window.innerHeight - maxHeight);
+                firework.remove();
+            };
+        }
+
+        function createExplosion(x, y) {
+            const colors = ['#ff4500', '#ff8c00', '#ffd700', '#00ff00', '#00ced1', '#1e90ff', '#da70d6'];
+            for (let i = 0; i < 30; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'trail';
+                trail.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                document.body.appendChild(trail);
+
+                const angle = Math.random() * 2 * Math.PI;
+                const radius = Math.random() * 150;
+
+                trail.animate([
+                    { transform: 'translate(0, 0)', opacity: '1' },
+                    { transform: `translate(${Math.cos(angle) * radius}px, ${Math.sin(angle) * radius}px)`, opacity: '0' }
+                ], {
+                    duration: Math.random() * 1 + 1 * 1000,
+                    easing: 'ease-out',
+                    fill: 'forwards'
+                }).onfinish = () => trail.remove();
+            }
+        }
+
+        function startAnimation() {
+            for (let i = 0; i < 100; i++) {
+                createStar();
+            }
+
+            for (let i = 0; i < 20; i++) {
+                createLove();
+            }
+            setInterval(createLove, 1000);
+
+            for (let i = 0; i < 30; i++) {
+                createFirefly();
+            }
+            setInterval(createFirefly, 1500);
+
+            for (let i = 0; i < 100; i++) {
+                createRain();
+            }
+            setInterval(createRain, 200);
+
+            createCloud(100, 100);
+            createCloud(400, 150);
+            createCloud(700, 50);
+            createCloud(window.innerWidth - 150, 100);
+
+            setInterval(createFirework, 2000);
+        }
+
+        startAnimation();
+    </script>
+</body>
+</html>
